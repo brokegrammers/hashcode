@@ -13,9 +13,9 @@ const inputs = [
 
 const start = Date.now();
 inputs.forEach((val, index) => {
-    const data = fs.readFileSync('./input_data/' + val, {encoding:'utf8', flag:'r'});
+    const data = fs.readFileSync('./input_data/' + val, { encoding: 'utf8', flag: 'r' });
     const runner = new Runner(index, data);
-    
+
     runner.init();
     runner.run();
     console.log();

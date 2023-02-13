@@ -5,14 +5,13 @@ const Slide = require("./Slide");
 
 const fileNames = [
   //"a_example.txt",
-  "b_lovely_landscapes.txt",
-  //"c_memorable_moments.txt",
+  //"b_lovely_landscapes.txt",
+  "c_memorable_moments.txt",
   //"d_pet_pictures.txt",
-  //"e_shiny_selfies.txt",|
+  //"e_shiny_selfies.txt",
 ];
 
 const debug = false;
-
 function readFile(fileName) {
   const lines = fs
     .readFileSync(fileName, { encoding: "utf8", flag: "r" })
@@ -30,9 +29,6 @@ function scoringFunction(tags1, tags2) {
       left++;
     }
   });
-  //   console.log(tags1);
-  //   console.log(tags2);
-  //   console.log(`left: ${left}\ncommon: ${common}\nright: ${right}`);
   return Math.min(left, common, tags2.length - common);
 }
 
@@ -42,25 +38,20 @@ function runRoutine(fileName) {
   const args = lines.shift();
 
   const [nImages] = args.split(" ");
-  // if (debug) {
   console.log("images:", nImages);
   console.log("----------------------------");
-  // }
 
   const Images = [];
   for (let i = 0; i < nImages; i++) {
     const line = lines[i].split(" ");
     Images.push(new Image(line.shift(), parseInt(line.shift()), line));
   }
-  //   console.log(Images);
 
   const progressBar = new cliProgress.SingleBar(
     {},
     cliProgress.Presets.shades_classic
   );
-  if (!debug) {
-    progressBar.start(nImages, 0);
-  }
+  progressBar.start(parseInt(nImages), 0);
 
   let score = 0;
   let reviewImage = Images.shift();
@@ -78,14 +69,11 @@ function runRoutine(fileName) {
     reviewImage = bestMatch.image;
     score += bestMatch.score;
     Slides.push(new Slide(reviewImage));
-    progressBar.update(nImages - Images);
+    progressBar.update(parseInt(nImages) - Images.length);
   }
-  console.log(Slides);
 
   fs.writeFileSync("out_" + fileName, "");
-  if (!debug) {
-    progressBar.stop();
-  }
+  progressBar.stop();
 
   console.log(`Score: ${score}`);
   return score;

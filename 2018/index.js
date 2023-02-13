@@ -63,12 +63,9 @@ function runRoutine(fileName) {
   if (debug) console.log(Cars);
   const UnavailableCars = [];
 
-  const progressBar = new cliProgress.SingleBar(
-    {},
-    cliProgress.Presets.shades_classic
-  );
+  const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
   if (!debug) {
-    progressBar.start(S, 0);
+    progressBar.start(parseInt(S), 0);
   }
 
   let score = 0,
